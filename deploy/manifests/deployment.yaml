@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gym-track-core
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gym-track-core
+  template:
+    metadata:
+      labels:
+        app: gym-track-core
+    spec:
+      containers:
+        - name: gym-track-core-container
+          image: johnjaredprater/gym_track_core:0.0.0
+          ports:
+            - containerPort: 80
