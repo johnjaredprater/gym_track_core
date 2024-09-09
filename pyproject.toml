@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["gym_track_core"]
+
+[project]
+name = "gym-track-core"
+version = "0.0.0"
+description = "Exposes an API for interacting with exercises and workouts"
+readme = "README.md"
+authors = [
+  {name = "John Prater", email = "johnjaredprater@gmail.com"},
+]
+
+requires-python = ">= 3.12"
+
+dependencies = [
+  "litestar[standard]~=2.0",
+  "attrs~=24.0",
+  "cattrs",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest"
+]
