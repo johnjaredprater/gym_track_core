@@ -16,6 +16,11 @@ Install dependencies with:
 pip install -e .
 ```
 
+Spin up the server & reload on changes with:
+```
+litestar run -r
+```
+
 To run tests, use
 ```
 pip install -e .["test"]
