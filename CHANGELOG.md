@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.1.0...v0.2.0) (2024-09-14)
+
+
+### Features
+
+* expose internally via a service ([3d1593a](https://github.com/johnjaredprater/gym_track_core/commit/3d1593a2530f23ee706efc686714c62c9eb1da46))
+
+
+### Bug Fixes
+
+* add api endpoint ([e931c90](https://github.com/johnjaredprater/gym_track_core/commit/e931c90e43e169b127f7dfe3584d6c10c86209ab))
+
 ## [0.1.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.0.0...v0.1.0) (2024-09-11)
 
 
