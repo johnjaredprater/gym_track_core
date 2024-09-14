@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.2.0...v0.3.0) (2024-09-14)
+
+
+### Features
+
+* add generated OpenAPI schema and version endpoint ([86343b2](https://github.com/johnjaredprater/gym_track_core/commit/86343b25b844f3d74d7e643cb6aab049e1ffc91b))
+
 ## [0.2.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.1.0...v0.2.0) (2024-09-14)
 
 
