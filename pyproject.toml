@@ -18,6 +18,7 @@ requires-python = ">= 3.12"
 
 dependencies = [
   "litestar[standard]~=2.0",
+  "firebase-admin~=6.5",
   "attrs~=24.0",
   "cattrs",
 ]

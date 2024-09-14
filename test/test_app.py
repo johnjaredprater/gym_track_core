@@ -4,7 +4,7 @@ from litestar.testing import TestClient
 from app.app import app
 
 
-def test_health_check():
+def test_version():
     with TestClient(app=app) as client:
-        response = client.get("/")
+        response = client.get("/api/version")
         assert response.status_code == HTTP_200_OK

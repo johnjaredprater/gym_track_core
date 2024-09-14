@@ -18,8 +18,10 @@ pip install -e .
 
 Spin up the server & reload on changes with:
 ```
-litestar run -r
+litestar run -r -d
 ```
+
+Check it's working by visiting the schema endpoint: http://localhost:8000/api/docs.
 
 To run tests, use
 ```
