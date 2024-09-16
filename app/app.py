@@ -3,6 +3,9 @@ from litestar.config.cors import CORSConfig
 from litestar.middleware import DefineMiddleware
 from litestar.openapi.config import OpenAPIConfig
 from litestar.openapi.plugins import ScalarRenderPlugin
+from app.sqlalchemy_sync_repository import get_exercises, on_startup
+# from litestar.contrib.sqlalchemy.plugins import SQLAlchemyPlugin
+
 
 import importlib
 from app.auth import MyAuthenticationMiddleware
@@ -25,7 +28,7 @@ async def version() -> str:
 
 
 app = Litestar(
-    route_handlers=[hello_world, version],
+    route_handlers=[hello_world, version, get_exercises],
         openapi_config=OpenAPIConfig(
         title="Gym Track Core",
         path="/api/docs",
@@ -33,5 +36,8 @@ app = Litestar(
         version=importlib.metadata.version('gym-track-core'),
         render_plugins=[ScalarRenderPlugin()],
     ),
-    cors_config=cors_config
+    cors_config=cors_config,
+    on_startup=[on_startup],
+    debug=True,
+    # plugins=[SQLAlchemyPlugin(config=sqlalchemy_config)],
 )
