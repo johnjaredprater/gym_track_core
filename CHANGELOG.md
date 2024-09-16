@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/johnjaredprater/gym_track_core/compare/v0.4.0...v0.4.1) (2024-09-16)
+
+
+### Bug Fixes
+
+* structure yaml properly ([870a05a](https://github.com/johnjaredprater/gym_track_core/commit/870a05aa3f93a6bd4d0f5e0697b2bd07f36235f7))
+
 ## [0.4.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.3.0...v0.4.0) (2024-09-16)
 
 
