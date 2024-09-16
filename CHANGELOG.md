@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.4.1...v0.5.0) (2024-09-16)
+
+
+### Features
+
+* connect to the RDS DB ([eb798c8](https://github.com/johnjaredprater/gym_track_core/commit/eb798c89ac5bfd456d8dcd2429dde82aa9839ffe))
+
 ## [0.4.1](https://github.com/johnjaredprater/gym_track_core/compare/v0.4.0...v0.4.1) (2024-09-16)
 
 
