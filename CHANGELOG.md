@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.3.0...v0.4.0) (2024-09-16)
+
+
+### Features
+
+* add DB credentials ([d53ad64](https://github.com/johnjaredprater/gym_track_core/commit/d53ad64a8e9e221fe3b5cd538063086471f0119f))
+
 ## [0.3.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.2.0...v0.3.0) (2024-09-14)
 
 
