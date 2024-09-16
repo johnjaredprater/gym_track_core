@@ -12,9 +12,20 @@ spec:
     metadata:
       labels:
         app: gym-track-core
+    volumes:
+    - name: secrets-store-inline
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: "aws-secrets"
     spec:
       containers:
         - name: gym-track-core-container
           image: johnjaredprater/gym_track_core:0.3.0
           ports:
             - containerPort: 80
+          volumeMounts:
+          - name: secrets-store-inline
+            mountPath: "/mnt/secrets-store"
+            readOnly: true
