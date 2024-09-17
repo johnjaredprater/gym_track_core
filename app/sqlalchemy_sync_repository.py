@@ -53,33 +53,38 @@ class Exercise:
 # password="mypass"
 # host="0.0.0.0"
 # port=3306
+
 dbname="gymtrack"
 driver="mariadbconnector"
+
+try:
+    with open("/mnt/secrets-store/dbusername", "r") as f:
+        db_username = f.read()
+    with open("/mnt/secrets-store/dbpassword", "r") as f:
+        db_password = f.read()
+
+    host="gym-track-core.cz0ki8esooam.eu-north-1.rds.amazonaws.com"
+    port=3306
+
+except Exception as e:
+    print(e)
+    print("Connecting to local DB instead")
+    db_username="root"
+    db_password="mypass"
+    host="0.0.0.0"
+    port=3306
+
+engine = sqlalchemy.create_engine(f"mariadb+{driver}://{db_username}:{db_password}@{host}:{port}/{dbname}")
+mapper_registry.metadata.create_all(engine)
+
 # session_config=SyncSessionConfig(expire_on_commit=False)
 # sqlalchemy_config = SQLAlchemySyncConfig(
 #     connection_string=f"mariadb+{driver}://{user}:{password}@{host}:{port}/{dbname}", session_config=session_config, create_all=True
 # )
 
-with open("/mnt/secrets-store/dbusername", "r") as f:
-    db_username = f.read()
-
-with open("/mnt/secrets-store/dbpassword", "r") as f:
-    db_password = f.read()
-
-print(f"{db_username=}")
-print(f"{db_password=}")
-
-host="gym-track-core.cz0ki8esooam.eu-north-1.rds.amazonaws.com"
-port=3306
-
-# engine = sqlalchemy.create_engine(f"mariadb+{driver}://{user}:{password}@{host}:{port}/{dbname}")
-engine = sqlalchemy.create_engine(f"mariadb+{driver}://{db_username}:{db_password}@{host}:{port}/{dbname}")
-mapper_registry.metadata.create_all(engine)
-
-
 def on_startup() -> None:
     """Adds some dummy data if no data is present."""
-    with connect_sqlalchemy_db() as session:
+    with connect_sqlalchemy_db(engine) as session:
 
         statement = select(func.count()).select_from(Exercise)
         count = session.execute(statement)
@@ -94,7 +99,7 @@ def on_startup() -> None:
 
 
 @contextmanager
-def connect_sqlalchemy_db() -> sqlalchemy.Session:
+def connect_sqlalchemy_db(engine) -> sqlalchemy.Session:
     try:
         Session = sqlalchemy.orm.sessionmaker()
         Session.configure(bind=engine)
@@ -112,6 +117,6 @@ def connect_sqlalchemy_db() -> sqlalchemy.Session:
 async def get_exercises() -> list[Exercise]:
     """Interact with SQLAlchemy engine and session."""
 
-    with connect_sqlalchemy_db() as session:
+    with connect_sqlalchemy_db(engine) as session:
         exercises = session.query(Exercise)
         return [attrs.asdict(exercise) for exercise in exercises.all()]
