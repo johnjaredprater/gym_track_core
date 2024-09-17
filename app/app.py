@@ -16,6 +16,11 @@ cors_config = CORSConfig(allow_origins=["http://localhost:3000"])
 auth_mw = DefineMiddleware(MyAuthenticationMiddleware, exclude="/api/docs")
 
 
+@get("/")
+async def health_check() -> None:
+    return None
+
+
 @get("/api")
 async def hello_world() -> str:
     return "Hello, world!"
@@ -28,8 +33,8 @@ async def version() -> str:
 
 
 app = Litestar(
-    route_handlers=[hello_world, version, get_exercises],
-        openapi_config=OpenAPIConfig(
+    route_handlers=[health_check, hello_world, version, get_exercises],
+    openapi_config=OpenAPIConfig(
         title="Gym Track Core",
         path="/api/docs",
         description="API docs",
