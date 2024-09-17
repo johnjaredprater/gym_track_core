@@ -66,6 +66,9 @@ with open("/mnt/secrets-store/dbusername", "r") as f:
 with open("/mnt/secrets-store/dbpassword", "r") as f:
     db_password = f.read()
 
+print(f"{db_username=}")
+print(f"{db_password=}")
+
 host="gym-track-core.cz0ki8esooam.eu-north-1.rds.amazonaws.com"
 port=3306
 
