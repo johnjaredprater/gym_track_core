@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.3](https://github.com/johnjaredprater/gym_track_core/compare/v0.5.2...v0.5.3) (2024-09-17)
+
+
+### Bug Fixes
+
+* allow local fallback ([e4bfdd9](https://github.com/johnjaredprater/gym_track_core/commit/e4bfdd9fb78e0c53e8523febf8d3e577c5cd7a43))
+* create the DB ([757a1c1](https://github.com/johnjaredprater/gym_track_core/commit/757a1c1d1fbb85a09d54d9a939514f2c985908e8))
+
 ## [0.5.2](https://github.com/johnjaredprater/gym_track_core/compare/v0.5.1...v0.5.2) (2024-09-17)
 
 
