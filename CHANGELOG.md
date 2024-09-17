@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/johnjaredprater/gym_track_core/compare/v0.5.0...v0.5.1) (2024-09-17)
+
+
+### Bug Fixes
+
+* add debug ([4747d13](https://github.com/johnjaredprater/gym_track_core/commit/4747d13306f406d16fccb7a6060acbddcc01c056))
+
 ## [0.5.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.4.1...v0.5.0) (2024-09-16)
 
 
