@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.2](https://github.com/johnjaredprater/gym_track_core/compare/v0.5.1...v0.5.2) (2024-09-17)
+
+
+### Bug Fixes
+
+* keep the base url as a health check ([ed9930c](https://github.com/johnjaredprater/gym_track_core/commit/ed9930c6adde04c875bb09bba27b4dc7191f3911))
+
 ## [0.5.1](https://github.com/johnjaredprater/gym_track_core/compare/v0.5.0...v0.5.1) (2024-09-17)
 
 
