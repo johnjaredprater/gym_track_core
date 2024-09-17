@@ -74,6 +74,37 @@ except Exception as e:
     host="0.0.0.0"
     port=3306
 
+
+@contextmanager
+def connect_maria_db():
+    try:
+        conn = mariadb.connect(
+            user=db_username,
+            password=db_password,
+            host=host,
+            port=port,
+        )
+        cur = conn.cursor()
+        yield cur
+        conn.commit() 
+    except mariadb.Error as e:
+        conn.rollback()
+        print(f"Error connecting to MariaDB Platform: {e}")
+        raise
+    finally:
+        conn.close()
+
+
+with connect_maria_db() as cursor:
+    try:
+        cursor.execute(
+            "CREATE DATABASE gymtrack;", 
+        )
+        "Successfully created database gymtrack"
+    except mariadb.ProgrammingError as e:
+        print(e)
+
+
 engine = sqlalchemy.create_engine(f"mariadb+{driver}://{db_username}:{db_password}@{host}:{port}/{dbname}")
 mapper_registry.metadata.create_all(engine)
 
