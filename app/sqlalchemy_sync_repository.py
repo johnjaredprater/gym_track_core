@@ -94,14 +94,14 @@ def connect_maria_db():
         conn.close()
 
 
-with connect_maria_db() as cursor:
-    try:
-        cursor.execute(
-            "CREATE DATABASE gymtrack;",
-        )
-        "Successfully created database gymtrack"
-    except mariadb.ProgrammingError as e:
-        print(e)
+# with connect_maria_db() as cursor:
+#     try:
+#         cursor.execute(
+#             "CREATE DATABASE gymtrack;",
+#         )
+#         "Successfully created database gymtrack"
+#     except mariadb.ProgrammingError as e:
+#         print(e)
 
 
 engine = sqlalchemy.create_engine(
