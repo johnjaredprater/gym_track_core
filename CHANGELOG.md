@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/johnjaredprater/gym_track_core/compare/v0.6.0...v0.6.1) (2024-09-22)
+
+
+### Bug Fixes
+
+* Don't create a DB by default for now ([144d215](https://github.com/johnjaredprater/gym_track_core/commit/144d215c232eb96f7468879847764abf3ce96c22))
+
 ## [0.6.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.5.3...v0.6.0) (2024-09-22)
 
 
