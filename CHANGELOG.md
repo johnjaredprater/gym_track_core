@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.5.3...v0.6.0) (2024-09-22)
+
+
+### Features
+
+* Require & verify auth for endpoints by default with some explicit exceptions ([b8ee8f1](https://github.com/johnjaredprater/gym_track_core/commit/b8ee8f12438274aa197b00182eb2a86628ad7876))
+
 ## [0.5.3](https://github.com/johnjaredprater/gym_track_core/compare/v0.5.2...v0.5.3) (2024-09-17)
 
 
