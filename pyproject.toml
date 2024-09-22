@@ -29,3 +29,14 @@ dependencies = [
 test = [
     "pytest"
 ]
+
+[tool.isort]
+profile = "black"
+
+[[tool.mypy.overrides]]
+module = "firebase_admin.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "mariadb.*"
+ignore_missing_imports = true

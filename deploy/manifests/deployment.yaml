@@ -19,10 +19,15 @@ spec:
           image: johnjaredprater/gym_track_core:0.5.3
           ports:
             - containerPort: 80
+          env:
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: "/mnt/firebase-config/firebase-key.json"
           volumeMounts:
           - name: secrets-store-inline
             mountPath: "/mnt/secrets-store"
             readOnly: true
+          - name: firebase-config
+            mountPath: "/mnt/firebase-config"
       volumes:
         - name: secrets-store-inline
           csi:
@@ -30,3 +35,6 @@ spec:
             readOnly: true
             volumeAttributes:
               secretProviderClass: "aws-secrets"
+        - name: firebase-config
+          secret:
+            secretName: "firebase-key"

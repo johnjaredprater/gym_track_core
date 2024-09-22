@@ -1,21 +1,20 @@
 from __future__ import annotations
 
-from contextlib import contextmanager
-import attrs
-import sqlalchemy
-from sqlalchemy import func, select, String, Integer, Column
-from sqlalchemy.orm import Mapped, registry
-import mariadb
-from litestar import get
-
-from attrs import define
-import mariadb.cursors
-from sqlalchemy import Table
-from sqlalchemy.orm import Mapped
 import json
+from contextlib import contextmanager
+from typing import Any
 
+import attrs
+import mariadb
+import mariadb.cursors
+import sqlalchemy
+from attrs import define
+from litestar import get
+from sqlalchemy import Column, Integer, String, Table, func, select
+from sqlalchemy.orm import Mapped, registry
 
 mapper_registry = registry()
+
 
 @mapper_registry.mapped
 @define(slots=False)
@@ -40,7 +39,7 @@ class Exercise:
 #     __tablename__ = "workout"  #  type: ignore[assignment]
 #     date: Mapped[date | None]
 #     title: Mapped[str]
-#     user: 
+#     user:
 #     exercise_id: Mapped[UUID] = mapped_column(ForeignKey("exercise.id"))
 #     # exercise: Mapped[ExerciseModel] = relationship(lazy="joined", innerjoin=True, viewonly=True)
 #     sets: Mapped[int]
@@ -54,8 +53,8 @@ class Exercise:
 # host="0.0.0.0"
 # port=3306
 
-dbname="gymtrack"
-driver="mariadbconnector"
+dbname = "gymtrack"
+driver = "mariadbconnector"
 
 try:
     with open("/mnt/secrets-store/dbusername", "r") as f:
@@ -63,16 +62,16 @@ try:
     with open("/mnt/secrets-store/dbpassword", "r") as f:
         db_password = f.read()
 
-    host="gym-track-core.cz0ki8esooam.eu-north-1.rds.amazonaws.com"
-    port=3306
+    host = "gym-track-core.cz0ki8esooam.eu-north-1.rds.amazonaws.com"
+    port = 3306
 
 except Exception as e:
     print(e)
     print("Connecting to local DB instead")
-    db_username="root"
-    db_password="mypass"
-    host="0.0.0.0"
-    port=3306
+    db_username = "root"
+    db_password = "mypass"
+    host = "0.0.0.0"
+    port = 3306
 
 
 @contextmanager
@@ -86,7 +85,7 @@ def connect_maria_db():
         )
         cur = conn.cursor()
         yield cur
-        conn.commit() 
+        conn.commit()
     except mariadb.Error as e:
         conn.rollback()
         print(f"Error connecting to MariaDB Platform: {e}")
@@ -98,20 +97,24 @@ def connect_maria_db():
 with connect_maria_db() as cursor:
     try:
         cursor.execute(
-            "CREATE DATABASE gymtrack;", 
+            "CREATE DATABASE gymtrack;",
         )
         "Successfully created database gymtrack"
     except mariadb.ProgrammingError as e:
         print(e)
 
 
-engine = sqlalchemy.create_engine(f"mariadb+{driver}://{db_username}:{db_password}@{host}:{port}/{dbname}")
+engine = sqlalchemy.create_engine(
+    f"mariadb+{driver}://{db_username}:{db_password}@{host}:{port}/{dbname}"
+)
 mapper_registry.metadata.create_all(engine)
 
 # session_config=SyncSessionConfig(expire_on_commit=False)
 # sqlalchemy_config = SQLAlchemySyncConfig(
-#     connection_string=f"mariadb+{driver}://{user}:{password}@{host}:{port}/{dbname}", session_config=session_config, create_all=True
+#     connection_string=f"mariadb+{driver}://{user}:{password}@{host}:{port}/{dbname}",
+#   session_config=session_config, create_all=True
 # )
+
 
 def on_startup() -> None:
     """Adds some dummy data if no data is present."""
@@ -124,9 +127,7 @@ def on_startup() -> None:
                 default_exercises = json.load(f)
             for index, exercise in enumerate(default_exercises, start=1):
                 name, video_link = exercise.values()
-                session.add(
-                    Exercise(id=index, name=name, video_link=video_link)
-                )
+                session.add(Exercise(id=index, name=name, video_link=video_link))
 
 
 @contextmanager
@@ -136,8 +137,8 @@ def connect_sqlalchemy_db(engine) -> sqlalchemy.Session:
         Session.configure(bind=engine)
         session = Session()
         yield session
-        session.commit() 
-    except mariadb.Error as e:
+        session.commit()
+    except mariadb.Error:
         session.rollback()
         raise
     finally:
@@ -145,7 +146,7 @@ def connect_sqlalchemy_db(engine) -> sqlalchemy.Session:
 
 
 @get(path="/api/exercises")
-async def get_exercises() -> list[Exercise]:
+async def get_exercises() -> list[dict[str, Any]]:
     """Interact with SQLAlchemy engine and session."""
 
     with connect_sqlalchemy_db(engine) as session:
