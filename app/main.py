@@ -1,4 +1,6 @@
+import base64
 import importlib
+import os
 
 # from litestar.contrib.sqlalchemy.plugins import SQLAlchemyPlugin
 from firebase_admin import initialize_app
@@ -12,6 +14,23 @@ from litestar.openapi.plugins import ScalarRenderPlugin
 
 from app.sqlalchemy_sync_repository import get_exercises, on_startup
 from app.user_auth import AccessToken, MyAuthenticationMiddleware, User
+
+
+def decode_kubernetes_secret_file():
+    base_64_secret_file = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    if base_64_secret_file:
+        with open(base_64_secret_file, "rb") as f:
+            encoded_data = f.read()
+            if encoded_data.decode("utf-8").startswith("{"):
+                return
+            decoded_data = base64.b64decode(encoded_data).decode("utf-8")
+
+        decoded_secret_file = "gym-tracking-firebase-key.json"
+        with open(decoded_secret_file, "w") as f:
+            f.write(decoded_data)
+
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = decoded_secret_file
+
 
 logging_config = LoggingConfig(
     root={"level": "INFO", "handlers": ["queue_listener"]},
@@ -59,4 +78,5 @@ app = Litestar(
     logging_config=logging_config,
     # plugins=[SQLAlchemyPlugin(config=sqlalchemy_config)],
 )
+decode_kubernetes_secret_file()
 initialize_app()
