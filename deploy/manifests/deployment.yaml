@@ -4,7 +4,7 @@ metadata:
   name: gym-track-core
   namespace: default
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: gym-track-core
@@ -20,21 +20,19 @@ spec:
           ports:
             - containerPort: 80
           env:
-          - name: GOOGLE_APPLICATION_CREDENTIALS
-            value: "/mnt/firebase-config/firebase-key.json"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/mnt/firebase-config/firebase-key.json"
           volumeMounts:
-          - name: secrets-store-inline
-            mountPath: "/mnt/secrets-store"
-            readOnly: true
-          - name: firebase-config
-            mountPath: "/mnt/firebase-config"
+            - name: database-credentials
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+            - name: firebase-config
+              mountPath: "/mnt/firebase-config"
+              readOnly: true
       volumes:
-        - name: secrets-store-inline
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "aws-secrets"
+        - name: database-credentials
+          secret:
+            secretName: "db-credentials"
         - name: firebase-config
           secret:
-            secretName: "firebase-key"
+            secretName: "firebase-credentials"
