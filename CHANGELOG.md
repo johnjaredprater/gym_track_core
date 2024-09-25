@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/johnjaredprater/gym_track_core/compare/v0.6.1...v0.6.2) (2024-09-25)
+
+
+### Bug Fixes
+
+* Point towards the right DB and update the secret names ([103b978](https://github.com/johnjaredprater/gym_track_core/commit/103b978acdcc65d30576c58077d7a07d774ab3e7))
+
 ## [0.6.1](https://github.com/johnjaredprater/gym_track_core/compare/v0.6.0...v0.6.1) (2024-09-22)
 
 
