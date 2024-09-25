@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.3](https://github.com/johnjaredprater/gym_track_core/compare/v0.6.2...v0.6.3) (2024-09-25)
+
+
+### Bug Fixes
+
+* decode kubernetes secret in a rather hacky way ([e9cf297](https://github.com/johnjaredprater/gym_track_core/commit/e9cf2970c64edbc4d191b8afe692fbe6139e2612))
+
 ## [0.6.2](https://github.com/johnjaredprater/gym_track_core/compare/v0.6.1...v0.6.2) (2024-09-25)
 
 
