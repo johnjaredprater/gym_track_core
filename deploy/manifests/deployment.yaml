@@ -24,7 +24,7 @@ spec:
               value: "/mnt/firebase-config/firebase-key.json"
           volumeMounts:
             - name: database-credentials
-              mountPath: "/mnt/secrets-store"
+              mountPath: "/mnt/db-secrets"
               readOnly: true
             - name: firebase-config
               mountPath: "/mnt/firebase-config"

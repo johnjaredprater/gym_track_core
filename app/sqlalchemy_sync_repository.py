@@ -57,12 +57,12 @@ dbname = "gymtrack"
 driver = "mariadbconnector"
 
 try:
-    with open("/mnt/secrets-store/dbusername", "r") as f:
+    with open("/mnt/db-secrets/username", "r") as f:
         db_username = f.read()
-    with open("/mnt/secrets-store/dbpassword", "r") as f:
+    with open("/mnt/db-secrets/password", "r") as f:
         db_password = f.read()
 
-    host = "gym-track-core.cz0ki8esooam.eu-north-1.rds.amazonaws.com"
+    host = "gym-track-core.cziymq0g8e9k.eu-west-2.rds.amazonaws.com"
     port = 3306
 
 except Exception as e:
