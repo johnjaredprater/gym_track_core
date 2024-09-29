@@ -2,17 +2,17 @@ import base64
 import importlib
 import os
 
-# from litestar.contrib.sqlalchemy.plugins import SQLAlchemyPlugin
 from firebase_admin import initialize_app
 from litestar import Litestar, Request, get
 from litestar.config.cors import CORSConfig
+from litestar.contrib.sqlalchemy.plugins import SQLAlchemyPlugin
 from litestar.datastructures import State
 from litestar.logging import LoggingConfig
 from litestar.middleware import DefineMiddleware
 from litestar.openapi.config import OpenAPIConfig
 from litestar.openapi.plugins import ScalarRenderPlugin
 
-from app.sqlalchemy_sync_repository import get_exercises, on_startup
+from app.sqlalchemy_async import get_exercises, on_startup, sqlalchemy_config
 from app.user_auth import AccessToken, MyAuthenticationMiddleware, User
 
 
@@ -76,7 +76,7 @@ app = Litestar(
     cors_config=cors_config,
     on_startup=[on_startup],
     logging_config=logging_config,
-    # plugins=[SQLAlchemyPlugin(config=sqlalchemy_config)],
+    plugins=[SQLAlchemyPlugin(config=sqlalchemy_config)],
 )
 decode_kubernetes_secret_file()
 initialize_app()

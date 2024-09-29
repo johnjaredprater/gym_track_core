@@ -27,3 +27,9 @@ To run tests, use
 ```
 pip install -e .["test"]
 ```
+
+### Database
+```
+docker run -e MYSQL_ROOT_PASSWORD=mypass -p 3306:3306 -d mariadb:11.2-jammy
+export GOOGLE_APPLICATION_CREDENTIALS=~/gym-tracking-firebase-key.json
+```
