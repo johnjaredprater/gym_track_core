@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/johnjaredprater/gym_track_core/compare/v0.7.0...v0.7.1) (2024-10-01)
+
+
+### Bug Fixes
+
+* Restore missing imports ([7c60dc8](https://github.com/johnjaredprater/gym_track_core/commit/7c60dc83cad03f7a2bcbfcdb3c7a40081110a9da))
+
 ## [0.7.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.6.3...v0.7.0) (2024-10-01)
 
 
