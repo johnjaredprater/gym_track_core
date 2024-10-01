@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import json
 
+from advanced_alchemy.extensions.litestar.plugins.init.config.engine import EngineConfig
 from litestar import Request, Response, delete, get, post
 from litestar.contrib.sqlalchemy.base import BigIntBase, UUIDAuditBase, UUIDBase
 from litestar.contrib.sqlalchemy.plugins import (
     AsyncSessionConfig,
-    EngineConfig,
     SQLAlchemyAsyncConfig,
 )
 from litestar.datastructures import State

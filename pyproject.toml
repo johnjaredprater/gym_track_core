@@ -17,12 +17,13 @@ authors = [
 requires-python = ">= 3.12"
 
 dependencies = [
-  "litestar[standard]~=2.0",
+  "litestar[standard, sqlalchemy]~=2.0",
   "firebase-admin~=6.5",
   "sqlalchemy[asyncio]~=2.0",
   "aiomysql~=0.2",
   "mariadb~=1.1",
   "attrs~=24.0",
+  "pydantic~=2.9",
   "cattrs",
 ]
 
@@ -30,7 +31,6 @@ dependencies = [
 test = [
     "pytest",
     "pytest-asyncio",
-    "pydantic"
 ]
 
 [tool.isort]
