@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.6.3...v0.7.0) (2024-10-01)
+
+
+### Features
+
+* add workout dom and endpoints to get, create & delete ([128e4e0](https://github.com/johnjaredprater/gym_track_core/commit/128e4e05495d765ef23cd7f6c3ab3f282e26527c))
+
 ## [0.6.3](https://github.com/johnjaredprater/gym_track_core/compare/v0.6.2...v0.6.3) (2024-09-25)
 
 
