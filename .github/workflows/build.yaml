@@ -8,6 +8,10 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
+    - name: Install dependencies
+      run: |
+          sudo apt update -y
+          sudo apt install libmariadb3 libmariadb-dev -y
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v4
     - uses: pre-commit/action@v3.0.1
