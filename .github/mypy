@@ -4,6 +4,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-pip install . \
+pip install ".[test]" \
 	> /dev/null
 mypy "$@"

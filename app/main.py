@@ -12,7 +12,14 @@ from litestar.middleware import DefineMiddleware
 from litestar.openapi.config import OpenAPIConfig
 from litestar.openapi.plugins import ScalarRenderPlugin
 
-from app.sqlalchemy_async import get_exercises, on_startup, sqlalchemy_config
+from app.sqlalchemy_async import (
+    delete_workouts,
+    get_exercises,
+    get_workouts,
+    on_startup,
+    post_workouts,
+    sqlalchemy_config,
+)
 from app.user_auth import AccessToken, MyAuthenticationMiddleware, User
 
 
@@ -64,7 +71,15 @@ async def version() -> str:
 
 
 app = Litestar(
-    route_handlers=[health_check, hello_world, version, get_exercises],
+    route_handlers=[
+        health_check,
+        hello_world,
+        version,
+        get_exercises,
+        post_workouts,
+        get_workouts,
+        delete_workouts,
+    ],
     middleware=[auth_mw],
     openapi_config=OpenAPIConfig(
         title="Gym Track Core",

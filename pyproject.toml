@@ -28,11 +28,16 @@ dependencies = [
 
 [project.optional-dependencies]
 test = [
-    "pytest"
+    "pytest",
+    "pytest-asyncio",
+    "pydantic"
 ]
 
 [tool.isort]
 profile = "black"
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
 module = "firebase_admin.*"
