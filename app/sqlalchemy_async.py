@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 
 from advanced_alchemy.extensions.litestar.plugins.init.config.engine import EngineConfig
-from litestar import Request, Response, delete, get, post
+from litestar import Request, Response, delete, get, patch, post
 from litestar.contrib.sqlalchemy.base import BigIntBase, UUIDAuditBase, UUIDBase
 from litestar.contrib.sqlalchemy.plugins import (
     AsyncSessionConfig,
@@ -21,6 +21,7 @@ from sqlalchemy import (
     func,
     select,
     text,
+    update,
 )
 from sqlalchemy.exc import NoResultFound, StatementError
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
@@ -88,7 +89,15 @@ class WorkoutCreate(BaseModel):
     exercise_id: int
     sets: int
     reps: int
-    weight: int
+    weight: float
+    rpe: int | None = None
+
+
+class WorkoutUpdate(BaseModel):
+    exercise_id: int | None = None
+    sets: int | None = None
+    reps: int | None = None
+    weight: float | None = None
     rpe: int | None = None
 
 
@@ -151,11 +160,9 @@ async def delete_workouts(
     """Create a workout for a particular user."""
     try:
         user = request.user
-        workout = (
-            await db_session.scalars(
-                select(Workout).filter_by(id=workout_id, user_id=user.user_id)
-            )
-        ).first()
+        workout = await db_session.scalar(
+            select(Workout).filter_by(id=workout_id, user_id=user.user_id)
+        )
 
         if not workout:
             return Response(
@@ -178,6 +185,52 @@ async def delete_workouts(
         )
 
 
+@patch(path="/api/workouts/{workout_id:str}", status_code=200)
+async def update_workouts(
+    db_session: AsyncSession,
+    request: Request[User, AccessToken, State],
+    workout_id: str,
+    data: WorkoutUpdate,
+) -> Response[None | dict[str, str]]:
+    """Create a workout for a particular user."""
+    try:
+        user = request.user
+
+        if set(data.model_dump().values()) != {None}:
+            print(
+                {
+                    field: value
+                    for field, value in data.model_dump().items()
+                    if value is not None
+                }
+            )
+            await db_session.execute(
+                update(Workout)
+                .where(Workout.id == workout_id, Workout.user_id == user.user_id)
+                .values(
+                    **{
+                        field: value
+                        for field, value in data.model_dump().items()
+                        if value is not None
+                    }
+                )
+            )
+
+            await db_session.commit()
+            return Response(
+                {"message": f"Workout with ID {workout_id} has been updated."},
+                status_code=200,
+            )
+        return Response(
+            {"message": f"Nothing to change for to Workout with ID {workout_id}."},
+            status_code=200,
+        )
+    except NoResultFound:
+        return Response(
+            {"error": f"Workout with ID {workout_id} not found"}, status_code=404
+        )
+
+
 @get(path="/api/workouts")
 async def get_workouts(
     db_session: AsyncSession, request: Request[User, AccessToken, State]
@@ -187,3 +240,32 @@ async def get_workouts(
     return list(
         await db_session.scalars(select(Workout).where(Workout.user_id == user.user_id))
     )
+
+
+@get(path="/api/workouts/{workout_id:str}")
+async def get_workout(
+    db_session: AsyncSession,
+    request: Request[User, AccessToken, State],
+    workout_id: str,
+) -> Response[Workout | dict[str, str]]:
+    """Get workouts for a particular user."""
+    user = request.user
+    try:
+        workout = await db_session.scalar(
+            select(Workout).where(
+                Workout.id == workout_id, Workout.user_id == user.user_id
+            )
+        )
+        if not workout:
+            return Response(
+                {"error": f"Workout with ID {workout_id} not found"}, status_code=404
+            )
+    except NoResultFound:
+        return Response(
+            {"error": f"Workout with ID {workout_id} not found"}, status_code=404
+        )
+    except StatementError:
+        return Response(
+            {"error": f"Workout ID {workout_id} was invalid"}, status_code=422
+        )
+    return Response(workout)

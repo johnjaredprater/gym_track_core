@@ -15,10 +15,12 @@ from litestar.openapi.plugins import ScalarRenderPlugin
 from app.sqlalchemy_async import (
     delete_workouts,
     get_exercises,
+    get_workout,
     get_workouts,
     on_startup,
     post_workouts,
     sqlalchemy_config,
+    update_workouts,
 )
 from app.user_auth import AccessToken, MyAuthenticationMiddleware, User
 
@@ -78,6 +80,8 @@ app = Litestar(
         get_exercises,
         post_workouts,
         get_workouts,
+        get_workout,
+        update_workouts,
         delete_workouts,
     ],
     middleware=[auth_mw],
