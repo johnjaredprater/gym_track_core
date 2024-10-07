@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.7.1...v0.8.0) (2024-10-07)
+
+
+### Features
+
+* Allow updating a workout ([965f5a3](https://github.com/johnjaredprater/gym_track_core/commit/965f5a3c7c5e946fb8203f7814a51c68da36f964))
+
 ## [0.7.1](https://github.com/johnjaredprater/gym_track_core/compare/v0.7.0...v0.7.1) (2024-10-01)
 
 
