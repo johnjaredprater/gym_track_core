@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/johnjaredprater/gym_track_core/compare/v0.8.0...v0.8.1) (2024-10-13)
+
+
+### Bug Fixes
+
+* post RPE correctly ([b146342](https://github.com/johnjaredprater/gym_track_core/commit/b14634267b822a4e494ac4f770e0982f67e7ff87))
+
 ## [0.8.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.7.1...v0.8.0) (2024-10-07)
 
 
