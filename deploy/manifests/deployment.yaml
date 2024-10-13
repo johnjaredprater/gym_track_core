@@ -16,7 +16,7 @@ spec:
       serviceAccountName: secret-service-account
       containers:
         - name: gym-track-core-container
-          image: johnjaredprater/gym_track_core:0.8.0
+          image: johnjaredprater/gym_track_core:0.8.1
           ports:
             - containerPort: 80
           env:
