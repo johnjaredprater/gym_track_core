@@ -143,7 +143,7 @@ async def post_workouts(
         sets=data.sets,
         reps=data.reps,
         weight=data.weight,
-        rpe=data.weight,
+        rpe=data.rpe,
     )
     db_session.add(workout)
     await db_session.commit()
@@ -237,9 +237,10 @@ async def get_workouts(
 ) -> list[Workout]:
     """Get workouts for a particular user."""
     user = request.user
-    return list(
+    workouts = list(
         await db_session.scalars(select(Workout).where(Workout.user_id == user.user_id))
     )
+    return workouts
 
 
 @get(path="/api/workouts/{workout_id:str}")
