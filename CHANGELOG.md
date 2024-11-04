@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.8.1...v0.9.0) (2024-11-04)
+
+
+### Features
+
+* add alembic to manage migrations and add a date column to workouts ([bb8aa1a](https://github.com/johnjaredprater/gym_track_core/commit/bb8aa1a4677f66e835291a8f0a31899d66dc075f))
+
 ## [0.8.1](https://github.com/johnjaredprater/gym_track_core/compare/v0.8.0...v0.8.1) (2024-10-13)
 
 
