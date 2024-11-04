@@ -97,6 +97,7 @@ class WorkoutCreate(BaseModel):
     reps: int
     weight: float
     rpe: int | None = None
+    date: datetime | None = None
 
 
 class WorkoutUpdate(BaseModel):
@@ -105,6 +106,7 @@ class WorkoutUpdate(BaseModel):
     reps: int | None = None
     weight: float | None = None
     rpe: int | None = None
+    date: datetime | None = None
 
 
 async def on_startup() -> None:
@@ -150,6 +152,7 @@ async def post_workouts(
         reps=data.reps,
         weight=data.weight,
         rpe=data.rpe,
+        date=data.date,
     )
     db_session.add(workout)
     await db_session.commit()
@@ -254,25 +257,12 @@ async def get_workout(
     db_session: AsyncSession,
     request: Request[User, AccessToken, State],
     workout_id: str,
-) -> Response[Workout | dict[str, str]]:
+) -> Workout:
     """Get workouts for a particular user."""
     user = request.user
-    try:
-        workout = await db_session.scalar(
-            select(Workout).where(
-                Workout.id == workout_id, Workout.user_id == user.user_id
-            )
-        )
-        if not workout:
-            return Response(
-                {"error": f"Workout with ID {workout_id} not found"}, status_code=404
-            )
-    except NoResultFound:
-        return Response(
-            {"error": f"Workout with ID {workout_id} not found"}, status_code=404
-        )
-    except StatementError:
-        return Response(
-            {"error": f"Workout ID {workout_id} was invalid"}, status_code=422
-        )
-    return Response(workout)
+    workout = await db_session.scalar(
+        select(Workout).where(Workout.id == workout_id, Workout.user_id == user.user_id)
+    )
+    if not workout:
+        raise Exception(f"Workout with ID {workout_id} not found")
+    return workout
