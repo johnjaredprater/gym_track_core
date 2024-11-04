@@ -14,6 +14,14 @@ spec:
         app: gym-track-core
     spec:
       serviceAccountName: secret-service-account
+      initContainers:
+        - name: alembic-migrate
+          image: johnjaredprater/gym_track_core:0.8.1
+          command: ["alembic", "upgrade", "head"]
+          volumeMounts:
+            - name: database-credentials
+              mountPath: "/mnt/db-secrets"
+              readOnly: true
       containers:
         - name: gym-track-core-container
           image: johnjaredprater/gym_track_core:0.8.1

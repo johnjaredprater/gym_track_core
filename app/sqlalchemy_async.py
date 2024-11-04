@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime, timezone
 
 from advanced_alchemy.extensions.litestar.plugins.init.config.engine import EngineConfig
+from advanced_alchemy.types import DateTimeUTC
 from litestar import Request, Response, delete, get, patch, post
 from litestar.contrib.sqlalchemy.base import BigIntBase, UUIDAuditBase, UUIDBase
 from litestar.contrib.sqlalchemy.plugins import (
@@ -25,7 +27,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.exc import NoResultFound, StatementError
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.user_auth import AccessToken, User
 
@@ -83,6 +85,10 @@ class Workout(UUIDAuditBase):
     reps = Column("reps", Integer, nullable=False)
     weight = Column("weight", Float, nullable=False)
     rpe = Column("rpe", Integer())
+
+    date: Mapped[datetime] = mapped_column(
+        DateTimeUTC(timezone=True), default=lambda: datetime.now(timezone.utc)
+    )
 
 
 class WorkoutCreate(BaseModel):
