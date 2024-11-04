@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.9.0...v0.10.0) (2024-11-04)
+
+
+### Features
+
+* Support date column in the API ([4542302](https://github.com/johnjaredprater/gym_track_core/commit/454230237a19e13bf0038d2103c478ccfab89857))
+
 ## [0.9.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.8.1...v0.9.0) (2024-11-04)
 
 
