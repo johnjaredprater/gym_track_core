@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.10.0...v1.0.0) (2024-12-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* create DB & tables on start-up
+
+### Features
+
+* create DB & tables on start-up ([846ffa2](https://github.com/johnjaredprater/gym_track_core/commit/846ffa237b531636678d9a571c37d82ff0695785))
+
 ## [0.10.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.9.0...v0.10.0) (2024-11-04)
 
 
