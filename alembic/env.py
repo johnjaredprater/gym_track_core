@@ -1,12 +1,17 @@
 import asyncio
 from logging.config import fileConfig
 
-from sqlalchemy import pool
+from sqlalchemy import pool, text
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import create_async_engine
 
 from alembic import context
-from app.sqlalchemy_async import DATABASE_URL, Exercise
+from app.sqlalchemy_async import (
+    DATABASE_URL,
+    DATABASE_URL_WITHOUT_DB,
+    DB_NAME,
+    Exercise,
+)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -68,19 +73,15 @@ async def run_async_migrations() -> None:
     and associate a connection with the context.
 
     """
+    async with create_async_engine(
+        DATABASE_URL_WITHOUT_DB, poolclass=pool.NullPool, echo=True
+    ).connect() as connection:
+        await connection.execute(text(f"CREATE DATABASE IF NOT EXISTS {DB_NAME}"))
 
-    connectable = create_async_engine(DATABASE_URL, poolclass=pool.NullPool, echo=True)
-
-    # async_engine_from_config(
-    #     config.get_section(config.config_ini_section, {}),
-    #     prefix="sqlalchemy.",
-    #     poolclass=pool.NullPool,
-    # )
-
-    async with connectable.connect() as connection:
+    async with create_async_engine(
+        DATABASE_URL, poolclass=pool.NullPool, echo=True
+    ).connect() as connection:
         await connection.run_sync(do_run_migrations)
-
-    await connectable.dispose()
 
 
 def run_migrations_online() -> None:

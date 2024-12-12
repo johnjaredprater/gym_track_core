@@ -31,7 +31,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.user_auth import AccessToken, User
 
-dbname = "gymtrack"
+DB_NAME = "gymtrack"
 driver = "mariadbconnector"
 
 try:
@@ -53,7 +53,7 @@ except Exception as e:
 
 
 DATABASE_URL_WITHOUT_DB = f"mysql+aiomysql://{db_username}:{db_password}@{host}:{port}"
-DATABASE_URL = f"mysql+aiomysql://{db_username}:{db_password}@{host}:{port}/{dbname}"
+DATABASE_URL = f"mysql+aiomysql://{db_username}:{db_password}@{host}:{port}/{DB_NAME}"
 session_config = AsyncSessionConfig(expire_on_commit=False)
 sqlalchemy_config = SQLAlchemyAsyncConfig(
     connection_string=DATABASE_URL,
@@ -113,7 +113,7 @@ async def on_startup() -> None:
     """Adds some dummy data if no data is present."""
 
     async with create_async_engine(DATABASE_URL_WITHOUT_DB, echo=True).begin() as conn:
-        await conn.execute(text(f"CREATE DATABASE IF NOT EXISTS {dbname}"))
+        await conn.execute(text(f"CREATE DATABASE IF NOT EXISTS {DB_NAME}"))
 
     async with sqlalchemy_config.get_engine().begin() as conn:
         await conn.run_sync(UUIDBase.metadata.create_all)
