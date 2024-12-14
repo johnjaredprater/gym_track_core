@@ -39,9 +39,10 @@ try:
         db_username = f.read()
     with open("/mnt/db-secrets/password", "r") as f:
         db_password = f.read()
-
-    host = "gym-track-core.cziymq0g8e9k.eu-west-2.rds.amazonaws.com"
-    port = 3306
+    with open("/mnt/db-secrets/host", "r") as f:
+        host = f.read()
+    with open("/mnt/db-secrets/port", "r") as f:
+        port = f.read()
 
 except Exception as e:
     print(e)
@@ -49,7 +50,7 @@ except Exception as e:
     db_username = "root"
     db_password = "mypass"
     host = "0.0.0.0"
-    port = 3306
+    port = "3306"
 
 
 DATABASE_URL_WITHOUT_DB = f"mysql+aiomysql://{db_username}:{db_password}@{host}:{port}"
