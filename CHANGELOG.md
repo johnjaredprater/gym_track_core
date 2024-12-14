@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/johnjaredprater/gym_track_core/compare/v1.0.0...v1.0.1) (2024-12-14)
+
+
+### Bug Fixes
+
+* use the Digital Ocean DB host & port ([0d21b64](https://github.com/johnjaredprater/gym_track_core/commit/0d21b649b1eb9a4fb57f91ba0cede32b410971eb))
+
 ## [1.0.0](https://github.com/johnjaredprater/gym_track_core/compare/v0.10.0...v1.0.0) (2024-12-12)
 
 
