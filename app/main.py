@@ -12,17 +12,16 @@ from litestar.middleware import DefineMiddleware
 from litestar.openapi.config import OpenAPIConfig
 from litestar.openapi.plugins import ScalarRenderPlugin
 
-from app.sqlalchemy_async import (
+from app.exercises import delete_exercise, get_exercises, post_exercise
+from app.sqlalchemy_async import on_startup, sqlalchemy_config
+from app.user_auth import AccessToken, MyAuthenticationMiddleware, User
+from app.workouts import (
     delete_workouts,
-    get_exercises,
     get_workout,
     get_workouts,
-    on_startup,
     post_workouts,
-    sqlalchemy_config,
     update_workouts,
 )
-from app.user_auth import AccessToken, MyAuthenticationMiddleware, User
 
 
 def decode_kubernetes_secret_file():
@@ -77,6 +76,8 @@ app = Litestar(
         health_check,
         hello_world,
         version,
+        delete_exercise,
+        post_exercise,
         get_exercises,
         post_workouts,
         get_workouts,
