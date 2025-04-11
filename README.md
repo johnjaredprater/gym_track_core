@@ -16,8 +16,20 @@ Install dependencies with:
 pip install -e .
 ```
 
+Spin up the DB with
+```
+docker run -e MYSQL_ROOT_PASSWORD=mypass -p 3306:3306 mysql:9.1.0
+```
+
+Pre-fill data with
+```
+alembic upgrade head
+```
+
+
 Spin up the server & reload on changes with:
 ```
+export GOOGLE_APPLICATION_CREDENTIALS=~/gym-tracking-firebase-key.json
 litestar run -r -d
 ```
 
@@ -26,16 +38,10 @@ Check it's working by visiting the schema endpoint: http://localhost:8000/api/do
 To run tests, use
 ```
 pip install -e .["test"]
+pytest
 ```
 
-### Database
-```
-docker run -e MYSQL_ROOT_PASSWORD=mypass -p 3306:3306 -d mysql:9.1.0
-
-export GOOGLE_APPLICATION_CREDENTIALS=~/gym-tracking-firebase-key.json
-```
-
-#### Alembic
+### Create a new Alembic migration
 
 ```
 alembic revision --autogenerate -m "revision name"
