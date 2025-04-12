@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/johnjaredprater/gym_track_core/compare/v1.0.1...v1.1.0) (2025-04-12)
+
+
+### Features
+
+* allow an admint to add or delete an exercise ([f8dc3de](https://github.com/johnjaredprater/gym_track_core/commit/f8dc3deee5be0a9dfe2f8a30b37dd12f249508a3))
+
 ## [1.0.1](https://github.com/johnjaredprater/gym_track_core/compare/v1.0.0...v1.0.1) (2024-12-14)
 
 
