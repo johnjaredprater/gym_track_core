@@ -1,10 +1,13 @@
-from typing import AsyncGenerator
+from datetime import datetime, timedelta
+from typing import Any, AsyncGenerator
+from unittest.mock import patch
 
 import pytest
 import pytest_asyncio
 from advanced_alchemy.extensions.litestar.plugins import (
     SQLAlchemyAsyncConfig as AdvancedAlchemyConfig,
 )
+from attrs import define
 from litestar.contrib.sqlalchemy.base import UUIDBase
 from litestar.plugins import PluginRegistry
 from litestar.plugins.sqlalchemy import SQLAlchemyPlugin
@@ -79,3 +82,81 @@ def test_client(sqlalchemy_config: AdvancedAlchemyConfig) -> AsyncTestClient:
         other_plugins + [SQLAlchemyPlugin(config=sqlalchemy_config)]
     )
     return AsyncTestClient(app=app)
+
+
+@define
+class User:
+    user_id: str
+    name: str
+    email: str
+    picture: str
+    custom_claims: dict[str, Any] = {}
+
+
+@pytest.fixture(autouse=True)
+def mock_user():
+    """
+    Fixture that mocks the user object.
+    """
+    return User(
+        user_id="test_user_id",
+        name="user",
+        email="test@example.com",
+        picture="https://example.com/test_user_id.png",
+    )
+
+
+@pytest.fixture(autouse=True)
+def mock_admin_user():
+    """
+    Fixture that mocks the user object.
+    """
+    return User(
+        user_id="admin_user_id",
+        name="admin",
+        email="admin@example.com",
+        picture="https://example.com/admin_user_id.png",
+        custom_claims={"admin": True},
+    )
+
+
+@pytest.fixture(autouse=True)
+def mock_firebase_auth(mock_user, mock_admin_user):
+    """
+    Fixture that mocks firebase_admin.auth with just the
+    verify_id_token and get_user methods.
+    """
+    with patch("firebase_admin.auth") as mock_auth:
+        # Create a users database for our mock
+        users = {
+            mock_user.user_id: mock_user,
+            mock_admin_user.user_id: mock_admin_user,
+        }
+
+        # Mock verify_id_token
+        def mock_verify_id_token(token, *args, **kwargs):
+            # Simplifying by assuming token is a user ID
+            if token in users:
+                user = users[token]
+                return {
+                    "uid": user.user_id,
+                    "user_id": user.user_id,
+                    "name": user.name,
+                    "email": user.email,
+                    "picture": user.picture,
+                    "iat": datetime.now().timestamp(),
+                    "exp": (datetime.now() + timedelta(hours=1)).timestamp(),
+                }
+            raise ValueError(f"Invalid token: {token}")
+
+        mock_auth.verify_id_token = mock_verify_id_token
+
+        # Mock get_user
+        def mock_get_user(uid, *args, **kwargs):
+            if uid in users:
+                return users[uid]
+            raise ValueError(f"No user with UID: {uid}")
+
+        mock_auth.get_user = mock_get_user
+
+        yield mock_auth
