@@ -22,7 +22,7 @@ class Exercise(BigIntBase):
 
 class ExerciseCreate(BaseModel):
     name: str
-    video_link: str
+    video_link: str | None = None
 
 
 class Workout(UUIDAuditBase):

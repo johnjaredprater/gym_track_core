@@ -32,6 +32,7 @@ dependencies = [
 test = [
     "pytest",
     "pytest-asyncio",
+    "aiosqlite"
 ]
 
 [tool.isort]
@@ -47,3 +48,6 @@ ignore_missing_imports = true
 [[tool.mypy.overrides]]
 module = "mariadb.*"
 ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "function"
