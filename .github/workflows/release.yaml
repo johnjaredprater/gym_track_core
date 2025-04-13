@@ -35,9 +35,9 @@ jobs:
             sudo apt install libmariadb3 libmariadb-dev -y
             pip install --upgrade pip
             pip install .["test"]
-      # - name: Test with pytest
-      #   run: |
-      #       pytest
+      - name: Test with pytest
+        run: |
+            pytest
       - name: Create Release
         id: release
         uses: googleapis/release-please-action@v4

@@ -20,9 +20,10 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from app.main import app
+from app.models.exercises_and_workouts import Exercise
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest_asyncio.fixture(scope="function")
 async def db_engine() -> AsyncGenerator[AsyncEngine, None]:
     """
     Create an in-memory SQLite database for testing.
@@ -41,7 +42,7 @@ async def db_engine() -> AsyncGenerator[AsyncEngine, None]:
     await engine.dispose()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def sqlalchemy_config(db_engine: AsyncEngine) -> AdvancedAlchemyConfig:
     """Create SQLAlchemy config with the test engine."""
     session_maker = async_sessionmaker(
@@ -60,8 +61,7 @@ def sqlalchemy_config(db_engine: AsyncEngine) -> AdvancedAlchemyConfig:
 
 
 @pytest_asyncio.fixture(scope="function")
-async def db_session(sqlalchemy_config) -> AsyncGenerator[AsyncTestClient, None]:
-    """Create a test client."""
+async def db_session(sqlalchemy_config) -> AsyncGenerator[AsyncSession, None]:
     async_session = sqlalchemy_config.session_maker()
     yield async_session
     await async_session.close()
@@ -69,7 +69,6 @@ async def db_session(sqlalchemy_config) -> AsyncGenerator[AsyncTestClient, None]
 
 @pytest.fixture(scope="function")
 def test_client(sqlalchemy_config: AdvancedAlchemyConfig) -> AsyncTestClient:
-    """Configure app with test database."""
     other_plugins = [
         plugin for plugin in app.plugins if not isinstance(plugin, SQLAlchemyPlugin)
     ]
@@ -85,7 +84,7 @@ def test_client(sqlalchemy_config: AdvancedAlchemyConfig) -> AsyncTestClient:
 
 
 @define
-class User:
+class MockUser:
     user_id: str
     name: str
     email: str
@@ -95,10 +94,7 @@ class User:
 
 @pytest.fixture(autouse=True)
 def mock_user():
-    """
-    Fixture that mocks the user object.
-    """
-    return User(
+    return MockUser(
         user_id="test_user_id",
         name="user",
         email="test@example.com",
@@ -108,10 +104,7 @@ def mock_user():
 
 @pytest.fixture(autouse=True)
 def mock_admin_user():
-    """
-    Fixture that mocks the user object.
-    """
-    return User(
+    return MockUser(
         user_id="admin_user_id",
         name="admin",
         email="admin@example.com",
@@ -160,3 +153,16 @@ def mock_firebase_auth(mock_user, mock_admin_user):
         mock_auth.get_user = mock_get_user
 
         yield mock_auth
+
+
+# Mock data for testing ---------------------------------------------------------
+
+
+@pytest_asyncio.fixture(scope="function")
+async def mock_exercise(db_session: AsyncSession):
+    mock_exercise = Exercise(
+        name="Push-up",
+    )
+    db_session.add(mock_exercise)
+    await db_session.commit()
+    return mock_exercise
