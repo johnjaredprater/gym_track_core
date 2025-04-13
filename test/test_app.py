@@ -6,7 +6,7 @@ from app.models.exercises_and_workouts import Exercise
 
 
 @pytest.mark.asyncio
-async def test_example(test_client: AsyncTestClient, db_session, db_engine):
+async def test_example(test_client: AsyncTestClient, db_session, db_engine, mock_user):
     """Example test."""
     response = await test_client.get("/api/exercises")
 
@@ -22,7 +22,9 @@ async def test_example(test_client: AsyncTestClient, db_session, db_engine):
     await db_session.commit()
 
     # Test API response
-    response = await test_client.get("/api/exercises")
+    response = await test_client.get(
+        "/api/exercises", headers={"Authorization": f"Bearer {mock_user.user_id}"}
+    )
     assert response.status_code == 200
     data = response.json()
     print(f"{response.json()=}")
