@@ -51,7 +51,7 @@ logging_config = LoggingConfig(
 
 # Allow local testing
 cors_config = CORSConfig(allow_origins=["http://localhost:3000"])
-auth_mw = DefineMiddleware(MyAuthenticationMiddleware, exclude="/api/docs")
+auth_mw = DefineMiddleware(MyAuthenticationMiddleware, exclude=["/api/docs"])
 
 
 @get("/", exclude_from_auth=True)
