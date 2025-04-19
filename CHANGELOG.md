@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/johnjaredprater/gym_track_core/compare/v1.1.1...v2.0.0) (2025-04-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* Rename workouts endpoints to exercise_results endpoints
+
+### Features
+
+* Rename workouts endpoints to exercise_results endpoints ([9aec5b6](https://github.com/johnjaredprater/gym_track_core/commit/9aec5b6cd8308d837e5db61a7ca5783afc6dbf02))
+
 ## [1.1.1](https://github.com/johnjaredprater/gym_track_core/compare/v1.1.0...v1.1.1) (2025-04-19)
 
 
