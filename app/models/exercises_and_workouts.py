@@ -15,7 +15,7 @@ class Exercise(BigIntBase):
     name = Column("name", String(length=100), nullable=False, unique=True)
     video_link = Column("video_link", String(length=100))
 
-    workouts: Mapped[list[Workout]] = relationship(
+    exercise_results: Mapped[list[ExerciseResult]] = relationship(
         back_populates="exercise", lazy="noload"
     )
 
@@ -25,13 +25,15 @@ class ExerciseCreate(BaseModel):
     video_link: str | None = None
 
 
-class Workout(UUIDAuditBase):
-    __tablename__ = "workouts"
+class ExerciseResult(UUIDAuditBase):
+    __tablename__ = "exercise_results"
 
     user_id = Column("user_id", String(length=100), nullable=False)
 
     exercise_id = Column(BigInteger, ForeignKey("exercises.id"))
-    exercise: Mapped[Exercise] = relationship(back_populates="workouts", lazy="joined")
+    exercise: Mapped[Exercise] = relationship(
+        back_populates="exercise_results", lazy="joined"
+    )
 
     sets = Column("sets", Integer, nullable=False)
     reps = Column("reps", Integer, nullable=False)
@@ -43,7 +45,7 @@ class Workout(UUIDAuditBase):
     )
 
 
-class WorkoutCreate(BaseModel):
+class ExerciseResultCreate(BaseModel):
     exercise_id: int | None = None
     sets: int
     reps: int
@@ -52,7 +54,7 @@ class WorkoutCreate(BaseModel):
     date: datetime | None = None
 
 
-class WorkoutUpdate(BaseModel):
+class ExerciseResultUpdate(BaseModel):
     exercise_id: int | None = None
     sets: int | None = None
     reps: int | None = None

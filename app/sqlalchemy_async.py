@@ -46,7 +46,7 @@ sqlalchemy_config = SQLAlchemyAsyncConfig(
 async def on_startup() -> None:
     """Adds some dummy data if no data is present."""
 
-    async with create_async_engine(DATABASE_URL_WITHOUT_DB, echo=True).begin() as conn:
+    async with create_async_engine(DATABASE_URL_WITHOUT_DB, echo=False).begin() as conn:
         await conn.execute(text(f"CREATE DATABASE IF NOT EXISTS {DB_NAME}"))
 
     async with sqlalchemy_config.get_engine().begin() as conn:
