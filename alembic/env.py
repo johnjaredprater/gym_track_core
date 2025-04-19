@@ -74,7 +74,7 @@ async def run_async_migrations() -> None:
 
     """
     async with create_async_engine(
-        DATABASE_URL_WITHOUT_DB, poolclass=pool.NullPool, echo=True
+        DATABASE_URL_WITHOUT_DB, poolclass=pool.NullPool, echo=False
     ).connect() as connection:
         await connection.execute(text(f"CREATE DATABASE IF NOT EXISTS {DB_NAME}"))
 

@@ -36,13 +36,13 @@ async def test_get_exercises(
         {
             "name": mock_exercise.name,
             "video_link": None,
-            "workouts": [],
+            "exercise_results": [],
             "id": mock_exercise.id,
         },
         {
             "name": mock_exercise_with_video_url.name,
             "video_link": mock_exercise_with_video_url.video_link,
-            "workouts": [],
+            "exercise_results": [],
             "id": mock_exercise_with_video_url.id,
         },
     ]
@@ -66,7 +66,7 @@ async def test_post_exercise(
     )
     assert get_response.status_code == 200
     assert get_response.json() == [
-        {"name": "New Exercise", "video_link": None, "workouts": [], "id": 1}
+        {"name": "New Exercise", "video_link": None, "exercise_results": [], "id": 1}
     ]
 
 

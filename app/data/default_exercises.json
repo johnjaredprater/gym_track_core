@@ -104,27 +104,39 @@
         "video_link": "https://www.youtube.com/embed/pn8mqlG0nkE?si=ECN6V0zgxSBaJtK0"
     },
     {
-            "name": "Dips",
-            "video_link": "https://www.youtube.com/embed/o2qX3Zb5mvg?si=5UIE8boiz-F7J9Dx"
+        "name": "Dips",
+        "video_link": "https://www.youtube.com/embed/o2qX3Zb5mvg?si=5UIE8boiz-F7J9Dx"
     },
     {
-            "name": "Skull Crusher",
-            "video_link": "https://www.youtube.com/embed/l3rHYPtMUo8?si=CNPUovfz7RcG0kDW"
+        "name": "Skull Crusher",
+        "video_link": "https://www.youtube.com/embed/l3rHYPtMUo8?si=CNPUovfz7RcG0kDW"
     },
     {
-            "name": "Chest Flies",
-            "video_link": "https://www.youtube.com/embed/JFm8KbhjibM?si=vGIGPmOhij1VFYgC"
+        "name": "Chest Flies",
+        "video_link": "https://www.youtube.com/embed/JFm8KbhjibM?si=vGIGPmOhij1VFYgC"
     },
     {
-            "name": "Bicep Dumbbell Curl",
-            "video_link": "https://www.youtube.com/embed/iixND1P2lik?si=eowguMg925JNud9d"
+        "name": "Bicep Dumbbell Curl",
+        "video_link": "https://www.youtube.com/embed/iixND1P2lik?si=eowguMg925JNud9d"
     },
     {
-            "name": "Single Arm Dumbbell Row",
-            "video_link": "https://www.youtube.com/embed/DMo3HJoawrU?si=kV5A033bNe89ceFe"
+        "name": "Single Arm Dumbbell Row",
+        "video_link": "https://www.youtube.com/embed/DMo3HJoawrU?si=kV5A033bNe89ceFe"
     },
     {
-            "name": "Bent Lateral Raise",
-            "video_link": "https://www.youtube.com/embed/34gVHrkaiz0?si=s-YBSIQ-M_a1TKfc"
+        "name": "Bent Lateral Raise",
+        "video_link": "https://www.youtube.com/embed/34gVHrkaiz0?si=s-YBSIQ-M_a1TKfc"
+    },
+    {
+        "name": "Incline Bench Press",
+        "video_link": "https://www.youtube.com/embed/lJ2o89kcnxY?si=CBuz-xD_naUhRPJW"
+    },
+    {
+        "name": "Decline Bench Press",
+        "video_link": "https://www.youtube.com/embed/blWH3mtSxxU?si=qntuqn-pVy-25mpH"
+    },
+    {
+        "name": "Seated Dumbbell Shoulder Press",
+        "video_link": "https://www.youtube.com/embed/HzIiNhHhhtA?si=-71rlZINACJ0lcQE"
     }
   ]

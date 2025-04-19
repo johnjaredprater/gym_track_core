@@ -6,7 +6,7 @@ from conftest import MockUser
 from litestar.testing import AsyncTestClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.exercises_and_workouts import Exercise, Workout
+from app.models.exercises_and_workouts import Exercise, ExerciseResult
 
 
 @pytest_asyncio.fixture(scope="function")
@@ -15,7 +15,7 @@ async def mock_workout(
     mock_user: MockUser,
     mock_exercise: Exercise,
 ):
-    workout = Workout(
+    workout = ExerciseResult(
         exercise_id=mock_exercise.id,
         sets=4,
         reps=8,
@@ -35,7 +35,7 @@ def format_datetime(dt: datetime) -> str:
 async def test_get_workouts(
     test_client: AsyncTestClient,
     mock_exercise: Exercise,
-    mock_workout: Workout,
+    mock_workout: ExerciseResult,
     mock_user: MockUser,
 ):
     response = await test_client.get(
