@@ -4,7 +4,7 @@ from conftest import MockUser
 from litestar.testing import AsyncTestClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.exercises_and_workouts import Exercise
+from app.models.models import Exercise
 
 
 @pytest_asyncio.fixture(scope="function")
