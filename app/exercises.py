@@ -1,14 +1,14 @@
-from litestar import Request, Response, delete, get, post
+from litestar import Request, Response, Router, delete, get, post
 from litestar.datastructures import State
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError, NoResultFound, StatementError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.exercises_and_workouts import Exercise, ExerciseCreate
+from app.models.models import Exercise, ExerciseCreate
 from app.user_auth import AccessToken, User
 
 
-@get(path="/api/exercises")
+@get(path="")
 async def get_exercises(
     db_session: AsyncSession,
 ) -> list[Exercise]:
@@ -16,7 +16,7 @@ async def get_exercises(
     return list(await db_session.scalars(select(Exercise)))
 
 
-@post(path="/api/exercises")
+@post(path="")
 async def post_exercise(
     db_session: AsyncSession,
     request: Request[User, AccessToken, State],
@@ -41,7 +41,7 @@ async def post_exercise(
     return exercise
 
 
-@delete(path="/api/exercises/{exercise_id:int}", status_code=200)
+@delete(path="/{exercise_id:int}", status_code=200)
 async def delete_exercise(
     db_session: AsyncSession,
     request: Request[User, AccessToken, State],
@@ -75,3 +75,14 @@ async def delete_exercise(
         return Response(
             {"error": f"Exercise ID {exercise_id} was invalid"}, status_code=422
         )
+
+
+exercise_router = Router(
+    path="/api/exercises",
+    route_handlers=[
+        post_exercise,
+        delete_exercise,
+        get_exercises,
+    ],
+    tags=["exercises"],
+)

@@ -20,7 +20,7 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from app.main import app
-from app.models.exercises_and_workouts import Exercise
+from app.models.models import Exercise
 
 
 @pytest_asyncio.fixture(scope="function")

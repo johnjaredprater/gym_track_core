@@ -6,25 +6,25 @@ from conftest import MockUser
 from litestar.testing import AsyncTestClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.exercises_and_workouts import Exercise, ExerciseResult
+from app.models.models import Exercise, ExerciseResult
 
 
 @pytest_asyncio.fixture(scope="function")
-async def mock_workout(
+async def mock_exercise_result(
     db_session: AsyncSession,
     mock_user: MockUser,
     mock_exercise: Exercise,
 ):
-    workout = ExerciseResult(
+    exercise_result = ExerciseResult(
         exercise_id=mock_exercise.id,
         sets=4,
         reps=8,
         weight=50.0,
         user_id=mock_user.user_id,
     )
-    db_session.add(workout)
+    db_session.add(exercise_result)
     await db_session.commit()
-    return workout
+    return exercise_result
 
 
 def format_datetime(dt: datetime) -> str:
@@ -32,14 +32,15 @@ def format_datetime(dt: datetime) -> str:
 
 
 @pytest.mark.asyncio
-async def test_get_workouts(
+async def test_get_exercise_results(
     test_client: AsyncTestClient,
     mock_exercise: Exercise,
-    mock_workout: ExerciseResult,
+    mock_exercise_result: ExerciseResult,
     mock_user: MockUser,
 ):
     response = await test_client.get(
-        "/api/workouts", headers={"Authorization": f"Bearer {mock_user.user_id}"}
+        "/api/exercise_results",
+        headers={"Authorization": f"Bearer {mock_user.user_id}"},
     )
     assert response.status_code == 200
     assert response.json() == [
@@ -50,35 +51,35 @@ async def test_get_workouts(
                 "name": mock_exercise.name,
                 "video_link": mock_exercise.video_link,
             },
-            "exercise_id": mock_workout.exercise_id,
-            "sets": mock_workout.sets,
-            "reps": mock_workout.reps,
-            "weight": mock_workout.weight,
-            "rpe": mock_workout.rpe,
-            "date": format_datetime(mock_workout.date),
-            "id": str(mock_workout.id),
-            "updated_at": format_datetime(mock_workout.updated_at),
-            "created_at": format_datetime(mock_workout.created_at),
+            "exercise_id": mock_exercise_result.exercise_id,
+            "sets": mock_exercise_result.sets,
+            "reps": mock_exercise_result.reps,
+            "weight": mock_exercise_result.weight,
+            "rpe": mock_exercise_result.rpe,
+            "date": format_datetime(mock_exercise_result.date),
+            "id": str(mock_exercise_result.id),
+            "updated_at": format_datetime(mock_exercise_result.updated_at),
+            "created_at": format_datetime(mock_exercise_result.created_at),
         }
     ]
 
 
 @pytest.mark.asyncio
-async def test_post_and_get_workout(
+async def test_post_and_get_exercise_result(
     test_client: AsyncTestClient,
     mock_user: MockUser,
     mock_exercise: Exercise,
 ):
     post_response = await test_client.post(
-        "/api/workouts",
+        "/api/exercise_results",
         headers={"Authorization": f"Bearer {mock_user.user_id}"},
         json={"exercise_id": mock_exercise.id, "sets": 4, "reps": 8, "weight": 50.0},
     )
     assert post_response.status_code == 201
-    workout_id = post_response.text
+    exercise_result_id = post_response.text
 
     get_response = await test_client.get(
-        f"/api/workouts/{workout_id}",
+        f"/api/exercise_results/{exercise_result_id}",
         headers={"Authorization": f"Bearer {mock_user.user_id}"},
     )
     assert get_response.status_code == 200
@@ -101,7 +102,7 @@ async def test_post_and_get_workout(
         "weight": 50.0,
         "rpe": None,
         "date": date,
-        "id": str(workout_id),
+        "id": str(exercise_result_id),
         "updated_at": updated_at,
         "created_at": created_at,
     }
