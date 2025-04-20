@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/johnjaredprater/gym_track_core/compare/v2.1.0...v2.1.1) (2025-04-20)
+
+
+### Bug Fixes
+
+* Instantiate anthropic_client after exporting auth env variable ([250071c](https://github.com/johnjaredprater/gym_track_core/commit/250071caa1971f76d78ff8ab822f76930a83fdd2))
+
 ## [2.1.0](https://github.com/johnjaredprater/gym_track_core/compare/v2.0.0...v2.1.0) (2025-04-20)
 
 
