@@ -13,10 +13,6 @@ from app.llm.claude_prompts import SCREENING_PROMPT, workout_plan_system_prompt
 from app.models.models import Exercise, ScreeningResult, ScreeningStatus, WeekPlan
 from app.user_auth import AccessToken, User
 
-anthropic_client = anthropic.Anthropic(
-    # defaults to os.environ.get("ANTHROPIC_API_KEY")
-)
-
 
 class UserPrompt(BaseModel):
     user_prompt: str
@@ -29,6 +25,9 @@ async def post_week_plan(
     data: UserPrompt,
 ) -> WeekPlan:
     """Create a workout plan"""
+    # TODO: Make this a dependency and auth properly
+    anthropic_client = anthropic.Anthropic()
+
     screening_message = anthropic_client.messages.create(
         model="claude-3-5-haiku-20241022",
         max_tokens=8_000,
