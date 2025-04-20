@@ -30,6 +30,7 @@ alembic upgrade head
 Spin up the server & reload on changes with:
 ```
 export GOOGLE_APPLICATION_CREDENTIALS=~/gym-tracking-firebase-key.json
+export ANTHROPIC_API_KEY=$(cat ~/anthropic-api-key)
 litestar run -r -d
 ```
 

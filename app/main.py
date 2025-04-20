@@ -16,6 +16,7 @@ from app.exercise_results import exercise_result_router
 from app.exercises import exercise_router
 from app.sqlalchemy_async import on_startup, sqlalchemy_config
 from app.user_auth import AccessToken, MyAuthenticationMiddleware, User
+from app.week_plans import week_plan_router
 
 
 def decode_kubernetes_secret_file():
@@ -32,6 +33,15 @@ def decode_kubernetes_secret_file():
             f.write(decoded_data)
 
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = decoded_secret_file
+
+
+def export_anthropic_api_key():
+    try:
+        with open("/mnt/anthropic-api-key/key", "r") as f:
+            os.environ["ANTHROPIC_API_KEY"] = f.read()
+    except Exception as e:
+        print(e)
+        print("Anthropic API key secret not found")
 
 
 logging_config = LoggingConfig(
@@ -72,6 +82,7 @@ app = Litestar(
         version,
         exercise_router,
         exercise_result_router,
+        week_plan_router,
     ],
     middleware=[auth_mw],
     openapi_config=OpenAPIConfig(
@@ -82,7 +93,7 @@ app = Litestar(
         render_plugins=[ScalarRenderPlugin()],
     ),
     cors_config=cors_config,
-    on_startup=[on_startup],
+    on_startup=[on_startup, export_anthropic_api_key],
     logging_config=logging_config,
     plugins=[SQLAlchemyPlugin(config=sqlalchemy_config)],
 )

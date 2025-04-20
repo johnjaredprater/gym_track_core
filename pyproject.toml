@@ -25,7 +25,8 @@ dependencies = [
   "attrs~=24.0",
   "pydantic~=2.9",
   "cattrs",
-  "alembic~=1.13"
+  "alembic~=1.13",
+  "anthropic~=0.49"
 ]
 
 [project.optional-dependencies]
