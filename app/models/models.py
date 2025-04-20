@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from enum import Enum
 
 from advanced_alchemy.types import DateTimeUTC
 from litestar.contrib.sqlalchemy.base import BigIntBase, UUIDAuditBase
@@ -61,3 +62,38 @@ class ExerciseResultUpdate(BaseModel):
     weight: float | None = None
     rpe: int | None = None
     date: datetime | None = None
+
+
+class WeekPlan(BaseModel):
+    summary: str
+    complete: bool = False
+    workouts: list[WorkoutPlan]
+
+
+class WorkoutPlan(BaseModel):
+    title: str
+    complete: bool = False
+    warm_ups: list[WarmUpPlan]
+    exercises: list[ExercisePlan]
+
+
+class WarmUpPlan(BaseModel):
+    description: str
+
+
+class ExercisePlan(BaseModel):
+    exercise: str
+    reps: int
+    sets: int
+    weight: float | None = None
+    rpe: int | None = None
+
+
+class ScreeningStatus(str, Enum):
+    accepted = "accepted"
+    rejected = "rejected"
+
+
+class ScreeningResult(BaseModel):
+    status: ScreeningStatus
+    reason: str | None = None

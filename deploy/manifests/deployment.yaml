@@ -37,6 +37,9 @@ spec:
             - name: firebase-config
               mountPath: "/mnt/firebase-config"
               readOnly: true
+            - name: anthropic-api-key
+              mountPath: "/mnt/anthropic-api-key"
+              readOnly: true
       volumes:
         - name: database-credentials
           secret:
@@ -44,3 +47,6 @@ spec:
         - name: firebase-config
           secret:
             secretName: "firebase-credentials"
+        - name: anthropic-api-key
+          secret:
+            secretName: "anthropic-api-key"
