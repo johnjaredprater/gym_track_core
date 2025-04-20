@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/johnjaredprater/gym_track_core/compare/v2.0.0...v2.1.0) (2025-04-20)
+
+
+### Features
+
+* add an endpoint for creating a week plan ([e8b1447](https://github.com/johnjaredprater/gym_track_core/commit/e8b1447f5719e76023003dd9ba14d6b813b22e8c))
+
 ## [2.0.0](https://github.com/johnjaredprater/gym_track_core/compare/v1.1.1...v2.0.0) (2025-04-19)
 
 
