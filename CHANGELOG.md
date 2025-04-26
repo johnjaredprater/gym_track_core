@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/johnjaredprater/gym_track_core/compare/v2.1.1...v3.0.0) (2025-04-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* Add CRUD endpoints for a user profile and base the workout off of that
+
+### Features
+
+* Add CRUD endpoints for a user profile and base the workout off of that ([225923f](https://github.com/johnjaredprater/gym_track_core/commit/225923f37ceddadef65da11eef928fe90a1e5286))
+
 ## [2.1.1](https://github.com/johnjaredprater/gym_track_core/compare/v2.1.0...v2.1.1) (2025-04-20)
 
 
