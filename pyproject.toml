@@ -7,7 +7,7 @@ packages = ["app"]
 
 [project]
 name = "gym-track-core"
-version = "3.0.0"
+version = "3.0.1"
 description = "Exposes an API for interacting with exercises and workouts"
 readme = "README.md"
 authors = [
