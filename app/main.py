@@ -16,6 +16,7 @@ from app.exercise_results import exercise_result_router
 from app.exercises import exercise_router
 from app.sqlalchemy_async import on_startup, sqlalchemy_config
 from app.user_auth import AccessToken, MyAuthenticationMiddleware, User
+from app.user_profile import user_profile_router
 from app.week_plans import week_plan_router
 
 
@@ -83,6 +84,7 @@ app = Litestar(
         exercise_router,
         exercise_result_router,
         week_plan_router,
+        user_profile_router,
     ],
     middleware=[auth_mw],
     openapi_config=OpenAPIConfig(

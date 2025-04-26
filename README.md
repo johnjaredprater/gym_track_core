@@ -42,6 +42,11 @@ pip install -e .["test"]
 pytest
 ```
 
+### Connect to local MySql container
+```
+docker exec -it <container id> mysql -u root -p
+```
+
 ### Create a new Alembic migration
 
 ```
