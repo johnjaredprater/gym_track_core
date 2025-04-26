@@ -10,7 +10,13 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.llm.claude_prompts import SCREENING_PROMPT, workout_plan_system_prompt
-from app.models.models import Exercise, ScreeningResult, ScreeningStatus, WeekPlan
+from app.models.models import (
+    Exercise,
+    ScreeningResult,
+    ScreeningStatus,
+    UserProfileORM,
+    WeekPlan,
+)
 from app.user_auth import AccessToken, User
 
 
@@ -18,15 +24,32 @@ class UserPrompt(BaseModel):
     user_prompt: str
 
 
+def _create_prompt_from_user_profile(user_profile: UserProfileORM) -> str:
+    return f"""
+    The user's gender is {user_profile.gender}.
+    They are {user_profile.age} years old.
+    Their fitness level is {user_profile.fitness_level}.
+    Their goals are the following:
+    {user_profile.goal}
+    They have the following injury description:
+    {user_profile.injury_description}
+    """
+
+
 @post(path="")
 async def post_week_plan(
     db_session: AsyncSession,
     request: Request[User, AccessToken, State],
-    data: UserPrompt,
 ) -> WeekPlan:
     """Create a workout plan"""
     # TODO: Make this a dependency and auth properly
     anthropic_client = anthropic.Anthropic()
+
+    user_profile = await db_session.scalar(
+        select(UserProfileORM).where(UserProfileORM.user_id == request.user.user_id)
+    )
+    if not user_profile:
+        raise HTTPException(status_code=412, detail="User profile not found")
 
     screening_message = anthropic_client.messages.create(
         model="claude-3-5-haiku-20241022",
@@ -39,7 +62,7 @@ async def post_week_plan(
                 "content": [
                     {
                         "type": "text",
-                        "text": data.user_prompt,
+                        "text": _create_prompt_from_user_profile(user_profile),
                     }
                 ],
             }
@@ -72,7 +95,7 @@ async def post_week_plan(
                 "content": [
                     {
                         "type": "text",
-                        "text": data.user_prompt,
+                        "text": _create_prompt_from_user_profile(user_profile),
                     }
                 ],
             }
