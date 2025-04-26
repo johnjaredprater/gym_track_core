@@ -26,14 +26,17 @@ class UserPrompt(BaseModel):
 
 def _create_prompt_from_user_profile(user_profile: UserProfileORM) -> str:
     return f"""
-    The user's gender is {user_profile.gender}.
-    They are {user_profile.age} years old.
-    Their fitness level is {user_profile.fitness_level}.
-    Their goals are the following:
+    My gender is {user_profile.gender}.
+    I am {user_profile.age} years old.
+    My fitness level is {user_profile.fitness_level}.
+    My goals are the following:
     {user_profile.goal}
-    They have the following injury description:
-    {user_profile.injury_description}
-    """
+    I would like a workout plan with {user_profile.number_of_days} days.
+    """ + (
+        f"I have the following injury description: {user_profile.injury_description}."
+        if str(user_profile.injury_description)
+        else ""
+    )
 
 
 @post(path="")
