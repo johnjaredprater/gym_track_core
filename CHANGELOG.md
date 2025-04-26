@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/johnjaredprater/gym_track_core/compare/v3.0.0...v3.0.1) (2025-04-26)
+
+
+### Bug Fixes
+
+* Include the number of days in the workout generation ([71dbc9e](https://github.com/johnjaredprater/gym_track_core/commit/71dbc9e10fc836cff3282a3413da53f58c1c7c8e))
+
 ## [3.0.0](https://github.com/johnjaredprater/gym_track_core/compare/v2.1.1...v3.0.0) (2025-04-26)
 
 
