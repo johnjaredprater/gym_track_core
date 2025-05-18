@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/johnjaredprater/gym_track_core/compare/v3.0.1...v3.1.0) (2025-05-18)
+
+
+### Features
+
+* persist workout plans to the DB ([435b305](https://github.com/johnjaredprater/gym_track_core/commit/435b3054b312f44c7c0079db96bf9873f2b10e9d))
+
 ## [3.0.1](https://github.com/johnjaredprater/gym_track_core/compare/v3.0.0...v3.0.1) (2025-04-26)
 
 
