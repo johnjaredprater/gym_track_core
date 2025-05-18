@@ -3,11 +3,13 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from enum import Enum
 
-from advanced_alchemy.types import DateTimeUTC
+from advanced_alchemy.types import GUID, DateTimeUTC
 from litestar.contrib.sqlalchemy.base import BigIntBase, UUIDAuditBase, orm_registry
-from pydantic import BaseModel, model_validator
-from sqlalchemy import BigInteger, Column, Float, ForeignKey, Integer, String
+from pydantic import BaseModel, Field, model_validator
+from sqlalchemy import BigInteger, Boolean, Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+
+# Database Models ------------------------------------------------------------
 
 
 class Base(DeclarativeBase):
@@ -23,6 +25,10 @@ class Exercise(BigIntBase):
     exercise_results: Mapped[list[ExerciseResult]] = relationship(
         back_populates="exercise", lazy="noload"
     )
+
+
+class ExercisesCreate(BaseModel):
+    exercises: list[ExerciseCreate]
 
 
 class ExerciseCreate(BaseModel):
@@ -63,6 +69,75 @@ class UserProfileORM(Base):
     injury_description = Column("injury_description", String(length=1_000))
 
 
+class WeekPlanORM(UUIDAuditBase):
+    __tablename__ = "week_plans"
+
+    user_id = Column("user_id", String(length=100), nullable=False)
+    summary = Column("summary", String(length=1_000), nullable=False)
+    complete = Column("complete", Boolean, nullable=False, default=False)
+    workout_plans: Mapped[list[WorkoutPlanORM]] = relationship(
+        back_populates="week_plan", lazy="joined"
+    )
+
+
+class WorkoutPlanORM(UUIDAuditBase):
+    __tablename__ = "workout_plans"
+
+    user_id = Column("user_id", String(length=100), nullable=False)
+    title = Column("title", String(length=100), nullable=False)
+    complete = Column("complete", Boolean, nullable=False, default=False)
+    week_plan_id = Column(GUID, ForeignKey("week_plans.id"), nullable=False)
+    week_plan: Mapped[WeekPlanORM] = relationship(
+        back_populates="workout_plans", lazy="noload"
+    )
+    warm_ups: Mapped[list[WarmUpPlanORM]] = relationship(
+        back_populates="workout_plan", lazy="joined"
+    )
+    exercise_plans: Mapped[list[ExercisePlanORM]] = relationship(
+        back_populates="workout_plan", lazy="joined"
+    )
+
+
+class WarmUpPlanORM(UUIDAuditBase):
+    __tablename__ = "warm_up_plans"
+
+    user_id = Column("user_id", String(length=100), nullable=False)
+    workout_plan_id = Column(GUID, ForeignKey("workout_plans.id"), nullable=False)
+
+    workout_plan: Mapped[WorkoutPlanORM] = relationship(
+        back_populates="warm_ups", lazy="noload"
+    )
+    description = Column("description", String(length=1_000), nullable=False)
+
+
+class ExercisePlanORM(UUIDAuditBase):
+    __tablename__ = "exercise_plans"
+
+    user_id = Column("user_id", String(length=100), nullable=False)
+    workout_plan_id = Column(GUID, ForeignKey("workout_plans.id"), nullable=False)
+    workout_plan: Mapped[WorkoutPlanORM] = relationship(
+        back_populates="exercise_plans", lazy="noload"
+    )
+    exercise_name = Column("exercise_name", String(length=100), nullable=False)
+    exercise_id = Column("exercise_id", Integer, nullable=False)
+
+    complete = Column("complete", Boolean, nullable=False, default=False)
+
+    exercise_result_id = Column(
+        GUID, ForeignKey("exercise_results.id"), nullable=True, default=None
+    )
+    exercise_result: Mapped[ExerciseResult | None] = relationship(
+        lazy="joined", foreign_keys=[exercise_result_id]
+    )
+    weight = Column("weight", Float, nullable=True)
+    reps = Column("reps", Integer, nullable=True)
+    sets = Column("sets", Integer, nullable=True)
+    rpe = Column("rpe", Integer, nullable=True)
+
+
+# App Data Models ------------------------------------------------------------
+
+
 class ExerciseResultCreate(BaseModel):
     exercise_id: int | None = None
     sets: int
@@ -81,29 +156,46 @@ class ExerciseResultUpdate(BaseModel):
     date: datetime | None = None
 
 
+class WeekPlansResponse(BaseModel):
+    week_plans: list[WeekPlan]
+
+
 class WeekPlan(BaseModel):
     summary: str
     complete: bool = False
-    workouts: list[WorkoutPlan]
+    workouts: list[WorkoutPlan] = Field(alias="workout_plans")
+
+    model_config = {"from_attributes": True, "populate_by_name": True}
+
+
+class WeekPlanUpdate(BaseModel):
+    complete: bool
 
 
 class WorkoutPlan(BaseModel):
     title: str
     complete: bool = False
     warm_ups: list[WarmUpPlan]
-    exercises: list[ExercisePlan]
+    exercises: list[ExercisePlan] = Field(alias="exercise_plans")
+
+    model_config = {"from_attributes": True, "populate_by_name": True}
 
 
 class WarmUpPlan(BaseModel):
     description: str
 
+    model_config = {"from_attributes": True}
+
 
 class ExercisePlan(BaseModel):
-    exercise: str
-    reps: int
-    sets: int
+    exercise: str = Field(alias="exercise_name")
+    reps: int | None = None
+    sets: int | None = None
     weight: float | None = None
     rpe: int | None = None
+    complete: bool = False
+
+    model_config = {"from_attributes": True, "populate_by_name": True}
 
 
 class ScreeningStatus(str, Enum):

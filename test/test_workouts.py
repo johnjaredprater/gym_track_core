@@ -10,6 +10,11 @@ from app.models.models import Exercise, ExerciseResult
 
 
 @pytest_asyncio.fixture(scope="function")
+async def mock_exercise(mock_exercises: list[Exercise]) -> Exercise:
+    return mock_exercises[0]
+
+
+@pytest_asyncio.fixture(scope="function")
 async def mock_exercise_result(
     db_session: AsyncSession,
     mock_user: MockUser,

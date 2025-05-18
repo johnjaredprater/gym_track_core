@@ -10,4 +10,12 @@ async def test_db_setup(db_engine):
         inspector = await conn.run_sync(lambda sync_conn: inspect(sync_conn))
         tables = await conn.run_sync(lambda _: inspector.get_table_names())
 
-    assert set(tables) == {"exercises", "exercise_results", "user_profiles"}
+    assert set(tables) == {
+        "exercises",
+        "exercise_results",
+        "user_profiles",
+        "week_plans",
+        "workout_plans",
+        "warm_up_plans",
+        "exercise_plans",
+    }

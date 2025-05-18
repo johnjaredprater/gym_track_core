@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError, NoResultFound, StatementError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.models import Exercise, ExerciseCreate
+from app.models.models import Exercise, ExercisesCreate
 from app.user_auth import AccessToken, User
 
 
@@ -20,25 +20,30 @@ async def get_exercises(
 async def post_exercise(
     db_session: AsyncSession,
     request: Request[User, AccessToken, State],
-    data: ExerciseCreate,
-) -> Exercise:
-    """Post an exercises"""
+    data: ExercisesCreate,
+) -> list[Exercise]:
+    """Post an exercise"""
     user = request.user
     if not user.admin:
         raise Exception("User does not have admin status")
 
-    exercise = Exercise(
-        name=data.name,
-        video_link=data.video_link,
-    )
+    exercises = [
+        Exercise(
+            name=exercise.name,
+            video_link=exercise.video_link,
+        )
+        for exercise in data.exercises
+    ]
     try:
-        db_session.add(exercise)
+        for exercise in exercises:
+            db_session.add(exercise)
         await db_session.commit()
     except IntegrityError:
-        raise Exception(f"An exercise with name {data.name} already exists")
+        raise Exception("An exercise with that name already exists")
 
-    await db_session.refresh(exercise)
-    return exercise
+    for exercise in exercises:
+        await db_session.refresh(exercise)
+    return exercises
 
 
 @delete(path="/{exercise_id:int}", status_code=200)

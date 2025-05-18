@@ -1,0 +1,87 @@
+{
+    "summary": "This upper body strength plan focuses on building the foundation for gymnastics skills while avoiding knee strain. It alternates between pulling and pushing movements to develop the strength needed for strict bar and ring muscle-ups.",
+    "workouts": [
+        {
+            "title": "Pull Day Foundations",
+            "warm_ups": [
+                {
+                    "description": "Shoulder circles and arm swings for 2 minutes"
+                },
+                {
+                    "description": "Scapular retractions and depressions on a bar for 2 sets of 10"
+                },
+                {
+                    "description": "Hanging arm activations for 30 seconds x 3 sets"
+                }
+            ],
+            "exercises": [
+                {
+                    "exercise": "Strict Pull-Up",
+                    "reps": 8,
+                    "sets": 4
+                },
+                {
+                    "exercise": "Strict Chest-to-Bar Pull-Up",
+                    "reps": 5,
+                    "sets": 4
+                },
+                {
+                    "exercise": "Single Arm Dumbbell Row",
+                    "reps": 10,
+                    "sets": 3
+                },
+                {
+                    "exercise": "Bicep Dumbbell Curl",
+                    "reps": 12,
+                    "sets": 3
+                },
+                {
+                    "exercise": "Bent Lateral Raise",
+                    "reps": 12,
+                    "sets": 3
+                }
+            ]
+        },
+        {
+            "title": "Push Day Development",
+            "warm_ups": [
+                {
+                    "description": "Wrist mobility exercises for 2 minutes"
+                },
+                {
+                    "description": "Push-up position holds with scapular protraction for 30 seconds x 3"
+                },
+                {
+                    "description": "Light band pull-aparts for 2 sets of 15"
+                }
+            ],
+            "exercises": [
+                {
+                    "exercise": "Strict Ring Dip",
+                    "reps": 6,
+                    "sets": 4
+                },
+                {
+                    "exercise": "Dips",
+                    "reps": 8,
+                    "sets": 4
+                },
+                {
+                    "exercise": "Bench Press",
+                    "reps": 8,
+                    "sets": 4
+                },
+                {
+                    "exercise": "Strict Press",
+                    "reps": 8,
+                    "sets": 3
+                },
+                {
+                    "exercise": "Skull Crusher",
+                    "reps": 12,
+                    "sets": 3
+                }
+            ]
+        }
+    ]
+}
